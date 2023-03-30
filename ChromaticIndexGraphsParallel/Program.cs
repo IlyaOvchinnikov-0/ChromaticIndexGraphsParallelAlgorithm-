@@ -7,10 +7,6 @@ namespace ChromaticIndexGraphsParallel
     {
         static void Main(string[] args)
         {
-            //int v;
-
-            /*cout << "Введите количество вершин графа: ";
-            cin >> v;*/
 
             Console.WriteLine("Введите количество ребер графа: ");
             int edges = Int32.Parse(Console.ReadLine());
