@@ -1,4 +1,5 @@
-.config
 obj
+bin
 .vs
 Properties
+App.config
