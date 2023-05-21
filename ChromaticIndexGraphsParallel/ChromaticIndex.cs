@@ -15,12 +15,12 @@ namespace ChromaticIndexGraphsParallel
 
             int max = -1;
 
-            Parallel.For(0, e, x => FindMaxColor(edges, e, x, ref max));
+            Parallel.For(0, e, x => FindMaxColor(edges, x, ref max));
 
             return max;
         }
 
-        private void FindMaxColor(List<Edge> edges, int e, int i, ref int max)
+        private void FindMaxColor(List<Edge> edges, int i, ref int max)
         {
             if (max < edges[i].Color)
             {
@@ -30,9 +30,7 @@ namespace ChromaticIndexGraphsParallel
 
         private void FindChromInd(List<Edge> edges, int e, int i)
         {
-            int c = 1;
-        flag:
-            edges[i].Color = c;
+            edges[i].Color++;
             for (int j = 0; j < e; j++)
             {
                 if (j == i)
@@ -42,8 +40,7 @@ namespace ChromaticIndexGraphsParallel
                 {
                     if (edges[j].Color == edges[i].Color)
                     {
-                        c++;
-                        goto flag;
+                        FindChromInd(edges, e, i);
                     }
                 }
             }
