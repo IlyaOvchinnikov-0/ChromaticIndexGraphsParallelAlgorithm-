@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChromaticIndexGraphsParallel
 {
-    internal static class Graph
+    class Graph
     {
-        public static List<Edge> Edges = new List<Edge>();
+        public List<Edge> Edges = new List<Edge>();
 
-        public static void CreateGraph(int e)
+        public void CreateGraph(int e)
         {
             for (int i = 0; i < e; i++)
             {

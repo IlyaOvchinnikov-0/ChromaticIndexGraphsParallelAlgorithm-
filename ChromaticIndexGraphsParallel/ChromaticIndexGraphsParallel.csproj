@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromaticIndexFinder.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="ChromaticIndex.cs" />
     <Compile Include="Graph.cs" />

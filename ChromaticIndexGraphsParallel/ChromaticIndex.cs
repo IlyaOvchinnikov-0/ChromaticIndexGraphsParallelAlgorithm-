@@ -1,5 +1,4 @@
-﻿using ChromaticIndexGraphsParallel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +19,6 @@ namespace ChromaticIndexGraphsParallel
             return max;
         }
 
-        private void FindMaxColor(List<Edge> edges, int i, ref int max)
-        {
-            if (max < edges[i].Color)
-            {
-                max = edges[i].Color;
-            }
-        }
-
         private void FindChromInd(List<Edge> edges, int e, int i)
         {
             edges[i].Color++;
@@ -43,6 +34,13 @@ namespace ChromaticIndexGraphsParallel
                         FindChromInd(edges, e, i);
                     }
                 }
+            }
+        }
+        private void FindMaxColor(List<Edge> edges, int i, ref int max)
+        {
+            if (max < edges[i].Color)
+            {
+                max = edges[i].Color;
             }
         }
 

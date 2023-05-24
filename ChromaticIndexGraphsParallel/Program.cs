@@ -13,14 +13,16 @@ namespace ChromaticIndexGraphsParallel
             Console.WriteLine("Введите количество ребер графа: ");
             int edges = Int32.Parse(Console.ReadLine());
 
-            Graph.CreateGraph(edges);
+            Graph graph = new Graph();
+
+            graph.CreateGraph(edges);
 
             ChromaticIndex chromaticIndex = new ChromaticIndex();
 
-            Console.WriteLine($"\nХроматический индекс данного графика равен: {chromaticIndex.FindChromaticIndex(Graph.Edges, edges)}");
+            Console.WriteLine($"\nХроматический индекс данного графика равен: {chromaticIndex.FindChromaticIndex(graph.Edges, edges)}");
 
             for (int i = 0; i < edges; i++)
-                Console.WriteLine($"Цвет ребра между вершинами {Graph.Edges[i].FirstVertex} и {Graph.Edges[i].SecondVertex} это: цвет C{Graph.Edges[i].Color}.");
+                Console.WriteLine($"Цвет ребра между вершинами {graph.Edges[i].FirstVertex} и {graph.Edges[i].SecondVertex} это: цвет C{graph.Edges[i].Color}.");
 
             Console.ReadLine();
         }
