@@ -26,8 +26,5 @@ namespace ChromaticIndexGraphsParallel
 
             Console.ReadLine();
         }
-
-
-        
     }
 }
