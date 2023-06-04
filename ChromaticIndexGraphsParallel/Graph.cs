@@ -20,7 +20,7 @@ namespace ChromaticIndexGraphsParallel
                 edge.FirstVertex = Int32.Parse(Console.ReadLine());
                 Console.Write("вершина 2: ");
                 edge.SecondVertex = Int32.Parse(Console.ReadLine());
-                edge.Color = 0;
+                edge.Color = 1;
                 Edges.Add(edge);
             }
         }
