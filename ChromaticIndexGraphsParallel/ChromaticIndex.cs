@@ -7,11 +7,10 @@ namespace ChromaticIndexGraphsParallel
     class ChromaticIndex
     {
         static object locker = new object();
+        static int numColor = 10;
         public int FindChromaticIndex(List<Edge> edges, int e)
         {
-            //Parallel.For(0, e, x => FindChromInd(edges, e, x));
-            
-            Parallel.For(1, 10, x => Coloring(edges, 0, e, x));
+            Parallel.For(1, numColor, x => Coloring(edges, 0, e, x));
 
             int max = 0;
 
