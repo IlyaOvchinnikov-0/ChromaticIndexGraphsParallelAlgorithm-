@@ -7,10 +7,10 @@ using System.Xml.Linq;
 
 namespace ChromaticIndexGraphsParallel
 {
-    internal class Edge
+    /*internal class Edge
     {
         public int FirstVertex;
         public int SecondVertex;
         public int Color; 
-    }
+    }*/
 }
