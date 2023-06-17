@@ -39,8 +39,10 @@ namespace ChromaticIndexGraphsParallel
         public int FindChromaticIndex(List<Edge> edges, int e)
         {
 
-            Parallel.For(1, FindMaxDegree(edges, e) + 2, () => new List<Edge>(edges), (i, state, newGraph) =>
+            Parallel.For(1, FindMaxDegree(edges, e) + 2, () => new List<Edge>(), (i, state, newGraph) =>
             {
+                newGraph = new List<Edge>(edges);
+
                 Coloring(newGraph, 0, e, i);
 
                 return newGraph;
@@ -50,11 +52,7 @@ namespace ChromaticIndexGraphsParallel
             {
                 lock (locker)
                 {
-                    if (Check(x, e))
-                    {
-                        result = x;
-                    }
-        
+                    result = x;
                 }
             }
             );
@@ -66,9 +64,9 @@ namespace ChromaticIndexGraphsParallel
             return max;
         }
 
-        private bool Check(List<Edge> edges, int m)
+        /*private bool Check(List<Edge> edges, int m)
         {
-            for (int i = 0; i <= m; i++)
+            for (int i = 0; i < m; i++)
             {
                 for (int j = 0; j < m; j++)
                 {
@@ -85,7 +83,7 @@ namespace ChromaticIndexGraphsParallel
                 }
             }
             return true;
-        }
+        }*/
 
         private void Coloring(List<Edge> edges, int i, int m, int num_color)
         {
@@ -172,7 +170,7 @@ namespace ChromaticIndexGraphsParallel
 
             Graph graph = new Graph();
 
-            //graph.CreateGraph(edges);
+            graph.CreateGraph(edges);
 
             /*graph.Edges.Add(new Edge { FirstVertex = 2, SecondVertex = 3, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
@@ -181,13 +179,13 @@ namespace ChromaticIndexGraphsParallel
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 5, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 5, Color = 1 });*/
 
-            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 5, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 1, Color = 1 });
+            /*graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 5, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 3, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 5, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 3, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 6, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 1, Color = 1 });*/
 
             ChromaticIndex chromaticIndex = new ChromaticIndex();
 
