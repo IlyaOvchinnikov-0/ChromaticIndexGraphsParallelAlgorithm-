@@ -3,3 +3,6 @@ bin
 .vs
 Properties
 App.config
+ChromaticIndex.cs
+Edge.cs
+Graph.cs

@@ -39,20 +39,7 @@ namespace ChromaticIndexGraphsParallel
         public int FindChromaticIndex(List<Edge> edges, int e)
         {
 
-            /*Parallel.For(1, e + 1, x =>
-            {
-                var newGraph = new List<Edge>(edges);
-
-                Coloring(newGraph, 0, e, x);
-
-                lock (locker)
-                {
-                    result = newGraph;
-                }
-            }
-            );*/
-
-            Parallel.For(1, e + 1, () => new List<Edge>(edges), (i, state, newGraph) =>
+            Parallel.For(1, FindMaxDegree(edges, e) + 2, () => new List<Edge>(edges), (i, state, newGraph) =>
             {
                 Coloring(newGraph, 0, e, i);
 
@@ -63,7 +50,11 @@ namespace ChromaticIndexGraphsParallel
             {
                 lock (locker)
                 {
-                    result = x;
+                    if (Check(x, e))
+                    {
+                        result = x;
+                    }
+        
                 }
             }
             );
@@ -75,6 +66,27 @@ namespace ChromaticIndexGraphsParallel
             return max;
         }
 
+        private bool Check(List<Edge> edges, int m)
+        {
+            for (int i = 0; i <= m; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    if (j == i)
+                        continue;
+                    if ((edges[j].FirstVertex == edges[i].FirstVertex
+                    || edges[j].FirstVertex == edges[i].SecondVertex
+                    || edges[j].SecondVertex == edges[i].FirstVertex
+                    || edges[j].SecondVertex == edges[i].SecondVertex)
+                    && edges[j].Color == edges[i].Color)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         private void Coloring(List<Edge> edges, int i, int m, int num_color)
         {
             if (i == m) return;
@@ -84,8 +96,10 @@ namespace ChromaticIndexGraphsParallel
                 {
                     if (j == i)
                         continue;
-                    if ((edges[j].FirstVertex == edges[i].FirstVertex || edges[j].FirstVertex == edges[i].SecondVertex
-                    || edges[j].SecondVertex == edges[i].FirstVertex || edges[j].SecondVertex == edges[i].SecondVertex)
+                    if ((edges[j].FirstVertex == edges[i].FirstVertex 
+                    || edges[j].FirstVertex == edges[i].SecondVertex
+                    || edges[j].SecondVertex == edges[i].FirstVertex 
+                    || edges[j].SecondVertex == edges[i].SecondVertex)
                     && edges[j].Color == edges[i].Color)
                     {
                         edges[i].Color = c;
@@ -94,6 +108,44 @@ namespace ChromaticIndexGraphsParallel
                 }
             }
             Coloring(edges, i + 1, m, num_color);
+        }
+
+        public int FindMaxDegree(List<Edge> edges, int e)
+        {
+            int maxDegree = int.MinValue;
+            for (int i = 0; i < e; i++)
+            {
+                int degree = 0;
+                for (int j = 0; j < e; j++)
+                {
+                    if (edges[i].FirstVertex == edges[j].FirstVertex
+                    || edges[i].FirstVertex == edges[j].SecondVertex)
+                    {
+                        degree++;
+                    }
+                }
+                if (degree > maxDegree) 
+                { 
+                    maxDegree = degree; 
+                }
+            }
+            for (int i = 0; i < e; i++)
+            {
+                int degree = 0;
+                for (int j = 0; j < e; j++)
+                {
+                    if (edges[i].SecondVertex == edges[j].FirstVertex
+                    || edges[i].SecondVertex == edges[j].SecondVertex)
+                    {
+                        degree++;
+                    }
+                }
+                if (degree > maxDegree)
+                {
+                    maxDegree = degree;
+                }
+            }
+            return maxDegree;
         }
 
         private void FindMaxColor(List<Edge> edges, int i, ref int max)
@@ -120,7 +172,7 @@ namespace ChromaticIndexGraphsParallel
 
             Graph graph = new Graph();
 
-            graph.CreateGraph(edges);
+            //graph.CreateGraph(edges);
 
             /*graph.Edges.Add(new Edge { FirstVertex = 2, SecondVertex = 3, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
@@ -129,9 +181,17 @@ namespace ChromaticIndexGraphsParallel
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 5, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 5, Color = 1 });*/
 
+            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 5, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 1, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 3, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 5, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 3, Color = 1 });
+            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 6, Color = 1 });
+
             ChromaticIndex chromaticIndex = new ChromaticIndex();
 
-            Console.WriteLine($"\nХроматический индекс данного графа равен: {chromaticIndex.FindChromaticIndex(graph.Edges, edges)}");
+            Console.WriteLine($"\nХроматический индекс данного графа равен: {chromaticIndex.FindChromaticIndex(graph.Edges, edges)}  {chromaticIndex.FindMaxDegree(graph.Edges, edges)}");
 
             for (int i = 0; i < edges; i++)
                 Console.WriteLine($"Цвет ребра между вершинами {graph.Edges[i].FirstVertex} и {graph.Edges[i].SecondVertex} это: цвет C{graph.Edges[i].Color}.");
