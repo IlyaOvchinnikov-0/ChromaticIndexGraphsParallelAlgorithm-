@@ -179,17 +179,9 @@ namespace ChromaticIndexGraphsParallel
             graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 5, Color = 1 });
             graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 5, Color = 1 });*/
 
-            /*graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 5, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 3, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 4, SecondVertex = 5, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 2, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 6, SecondVertex = 3, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 1, SecondVertex = 6, Color = 1 });
-            graph.Edges.Add(new Edge { FirstVertex = 3, SecondVertex = 1, Color = 1 });*/
-
             ChromaticIndex chromaticIndex = new ChromaticIndex();
 
-            Console.WriteLine($"\nХроматический индекс данного графа равен: {chromaticIndex.FindChromaticIndex(graph.Edges, edges)}  {chromaticIndex.FindMaxDegree(graph.Edges, edges)}");
+            Console.WriteLine($"\nХроматический индекс данного графа равен: {chromaticIndex.FindChromaticIndex(graph.Edges, edges)} ");
 
             for (int i = 0; i < edges; i++)
                 Console.WriteLine($"Цвет ребра между вершинами {graph.Edges[i].FirstVertex} и {graph.Edges[i].SecondVertex} это: цвет C{graph.Edges[i].Color}.");
